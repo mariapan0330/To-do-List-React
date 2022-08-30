@@ -5,21 +5,32 @@ function App() {
     // with useState, the first item in the array is the current state
     // and the second item is the method that will update that state 
     const [items, setItem] = useState([])
-    const [checkBox, setCheckBox] = useState('dark')
+    const [checkBox, setCheckBox] = useState(['outline-success'])
     let currentCheckBoxes = [];
     function handleSubmit(e){
         e.preventDefault()
         currentCheckBoxes.push('dark') // adding a new dark button
-        console.log(currentCheckBoxes);
+        console.log(currentCheckBoxes); // for some reason it does not push what's in the array, only replaces.
         const item = e.target.todoItem.value
         let newItem = [...items, item]
         setItem(newItem)
         e.target.todoItem.value = ''
     }
 
-    function handleCheckBoxClick(){
-        // let newColor = [...checkBox, 'success']
-        setCheckBox('success')
+    function handleCheckBoxClick(idx){
+        // setCheckBox(['success']) // this only works for the first item
+        let newColor = [...checkBox, 'success']
+        setCheckBox(newColor)
+        
+        // if (checkBox[idx] === 'outline-success'){ // this doesn't work :,(
+        //     let newColor = [...checkBox, 'success']
+        //     setCheckBox(newColor)
+        //     // setCheckBox(['success'])
+        // } else if (checkBox[idx] === 'success'){
+        //     let newColor = [...checkBox, 'outline-success']
+        //     setCheckBox(newColor)
+        //     // setCheckBox(['outline-success'])
+        // }
         console.log('Button was clicked');
     }
 
@@ -37,9 +48,7 @@ function App() {
                     { items.map((item, idx) => 
                         <tr>
                             <th scope="row">
-                                {currentCheckBoxes.map((cb, i) =>
-                                    <CheckBox color={cb} idx={idx+1} handleCheckBoxClick={handleCheckBoxClick}/>
-                                )}
+                                <CheckBox color={checkBox[idx]} idx={idx+1} handleCheckBoxClick={handleCheckBoxClick}/>
                             </th>
                             <td>{item}</td>
                         </tr>
